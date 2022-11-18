@@ -15,5 +15,20 @@ jobs:
     plan:
       - get: demo
         trigger: true
-      - task: reatepipeline
-        file: demo/build/test.yml
+      - task: check
+        config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source:
+              repository: ubuntu
+          inputs:
+          - name: demo
+          run:
+            path: sh
+            args:
+            - -exc
+            - |
+              ls 
+        
+      #   file: demo/build/test.yml
