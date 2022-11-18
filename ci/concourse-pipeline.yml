@@ -29,6 +29,7 @@ jobs:
             args:
             - -exc
             - |
-              ls 
+              cd demo 
+              ls
         
       #   file: demo/build/test.yml
