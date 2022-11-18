@@ -8,7 +8,7 @@ resources:
   - name: demo
     type: git-branches
     source:
-      uri: git@github.com:diwakar-k/branch
+      uri: https://github.com/diwakar-k/branch.git
 jobs:
   - name: "test-pipeline"
     public: false
