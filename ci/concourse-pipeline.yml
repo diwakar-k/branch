@@ -86,13 +86,12 @@ jobs:
       - get: repo
         trigger: true
   
-  - name: build
+  - name: check
     public: true
-    serial: true
     plan:
       - get: repo
-        trigger: true
         passed: [test]
+        trigger: true
       - task: check
         config:
           platform: linux
@@ -109,6 +108,8 @@ jobs:
             - -exc  
             - |
               ls
+
+              
 
       
   # - name: deploy
