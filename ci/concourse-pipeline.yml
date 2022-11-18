@@ -1,98 +1,97 @@
-# resource_types:
-# - name: git-branches
-#   type: docker-image
-#   source:
-#     repository: vito/git-branches-resource
-
-# resources:
-#   - name: demo
-#     type: git-branches
-#     source:
-#       uri: https://github.com/diwakar-k/branch.git
-# jobs:
-#   - name: "test-pipeline"
-#     public: false
-#     plan:
-#       - get: demo
-#         trigger: true
-#       - task: check
-#         config:
-#           platform: linux
-#           image_resource:
-#             type: docker-image
-#             source:
-#               repository: teliaoss/concourse-fly
-#               tag: latest
-#           inputs:
-#           - name: demo
-#           run:
-#             path: sh
-#             args:
-#             - -exc
-#             - |
-#               cd demo 
-#               ls
-#               export NEW_VERSIONS=$(cat branches)
-#               export OLD_VERSIONS=$(cat removed)
-#               fly -t tutorial login -c http://54.242.191.180:8080 -u test -p test
-#               fly -t tutorial sync
-#               for version in $NEW_VERSIONS; do
-#                 sed "s/___BRANCH___/$version/g" demo/.ci/pipeline-demo.tmpl > .ci/pipeline-app.result
-#                 echo "Create pipeline branch $version"
-#                 fly -t your-concourse sp -n -p app-$version -c demo/.ci/pipeline-app.result
-#                 echo "Unpause pipeline branch $version"
-#                 fly -t your-concourse up -p app-$version
-#               done
-        
-#       #   file: demo/build/test.yml
-
+resource_types:
+- name: git-branches
+  type: docker-image
+  source:
+    repository: vito/git-branches-resource
 
 resources:
-  - name: repo
-    type: git
+  - name: demo
+    type: git-branches
     source:
-      # uri: https://github.com/diwakar-k/cancourse_cicd.git
       uri: https://github.com/diwakar-k/branch.git
-      branch: ((branch))
-
-
 jobs:
-  # - name: test
-  #   public: true
+  - name: "test-pipeline"
+    public: false
+    plan:
+      - get: demo
+        trigger: true
+      - task: check
+        config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source:
+              repository: teliaoss/concourse-fly
+              tag: latest
+          inputs:
+          - name: demo
+          run:
+            path: sh
+            args:
+            - -exc
+            - |
+              cd demo 
+              ls
+              export NEW_VERSIONS=$(cat branches)
+              export OLD_VERSIONS=$(cat removed)
+              fly -t tutorial login -c http://54.145.181.161:8080 -u test -p test
+              fly -t tutorial sync
+              for version in $NEW_VERSIONS; do.
+                 ls
+                # sed "s/___BRANCH___/$version/g" demo/.ci/pipeline-demo.tmpl > .ci/pipeline-app.result
+                # echo "Create pipeline branch $version"
+                # fly -t your-concourse sp -n -p app-$version -c demo/.ci/pipeline-app.result
+                # echo "Unpause pipeline branch $version"
+                # fly -t your-concourse up -p app-$version
+              done
+        
+# #       #   file: demo/build/test.yml
 
-  #   plan:
-  #     - get: repo
-  #       trigger: true
-  #     - task: mvn-test
-  #       file: "repo/concourse_ci/tasks/maven-test.yml"
 
-  # - name: test
-  #   public: true
-  #   serial: true
-  #   plan:
-  #     - get: repo
-  #       trigger: true
-  #       # passed: [test]
-  #     - task: mvn-package
-  #       file: "repo/concourse_ci/tasks/maven-package.yml"
-  #     - put: ecr-docker-reg
-  #       params:
-  #         build: repo
-  #         dockerfile: repo/Dockerfile
+# resources:
+#   - name: repo
+#     type: git
+#     source:
+#       # uri: https://github.com/diwakar-k/cancourse_cicd.git
+#       uri: https://github.com/diwakar-k/branch.git
+#       branch: ((branch))
+# jobs:
+#   # - name: test
+#   #   public: true
+
+#   #   plan:
+#   #     - get: repo
+#   #       trigger: true
+#   #     - task: mvn-test
+#   #       file: "repo/concourse_ci/tasks/maven-test.yml"
+
+#   # - name: test
+#   #   public: true
+#   #   serial: true
+#   #   plan:
+#   #     - get: repo
+#   #       trigger: true
+#   #       # passed: [test]
+#   #     - task: mvn-package
+#   #       file: "repo/concourse_ci/tasks/maven-package.yml"
+#   #     - put: ecr-docker-reg
+#   #       params:
+#   #         build: repo
+#   #         dockerfile: repo/Dockerfile
     
-  - name: test
-    public: true
-    serial: true
-    plan:
-      - get: repo
-        trigger: true
+#   - name: test
+#     public: true
+#     serial: true
+#     plan:
+#       - get: repo
+#         trigger: true
   
-  - name: check
-    public: true
-    plan:
-      - get: repo
-        passed: [test]
-        trigger: true
+#   - name: check
+#     public: true
+#     plan:
+#       - get: repo
+#         passed: [test]
+#         trigger: true
 
       # - task: check
       #   config:
