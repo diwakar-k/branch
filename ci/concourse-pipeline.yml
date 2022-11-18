@@ -38,6 +38,7 @@ jobs:
               fly -t tutorial sync
               for version in $NEW_VERSIONS; do
                   echo $version
+                  git branch
                 # sed "s/___BRANCH___/$version/g" .ci/pipeline-demo.tmpl > .ci/pipeline-app.result
                 # echo "Create pipeline branch $version"
                 # fly -t your-concourse sp -n -p app-$version -c demo/.ci/pipeline-app.result
