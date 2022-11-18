@@ -36,5 +36,12 @@ jobs:
               export OLD_VERSIONS=$(cat removed)
               fly -t tutorial login -c http://54.242.191.180:8080 -u test -p test
               fly -t tutorial sync
+              for version in $NEW_VERSIONS; do
+                sed "s/___BRANCH___/$version/g" demo/.ci/pipeline-demo.tmpl > demo/.ci/pipeline-app.result
+                echo "Create pipeline branch $version"
+                fly -t your-concourse sp -n -p app-$version -c demo/.ci/pipeline-app.result
+                echo "Unpause pipeline branch $version"
+                fly -t your-concourse up -p app-$version
+              done
         
       #   file: demo/build/test.yml
