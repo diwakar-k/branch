@@ -21,7 +21,8 @@ jobs:
           image_resource:
             type: docker-image
             source:
-              repository: ubuntu
+              repository: rguichard/fly
+              tag: latest
           inputs:
           - name: demo
           run:
@@ -33,5 +34,6 @@ jobs:
               ls
               export NEW_VERSIONS=$(cat branches)
               export OLD_VERSIONS=$(cat removed)
+              fly -t tutorial login -c http://localhost:8080 -u test -p test
         
       #   file: demo/build/test.yml
