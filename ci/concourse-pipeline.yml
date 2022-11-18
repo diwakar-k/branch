@@ -53,6 +53,7 @@ resources:
     source:
       # uri: https://github.com/diwakar-k/cancourse_cicd.git
       uri: https://github.com/diwakar-k/branch.git
+      branch: "*"
 
 
 jobs:
@@ -92,7 +93,7 @@ jobs:
       - get: repo
         passed: [test]
         trigger: true
-        
+
       # - task: check
       #   config:
       #     platform: linux
