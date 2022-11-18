@@ -53,7 +53,7 @@ resources:
     source:
       # uri: https://github.com/diwakar-k/cancourse_cicd.git
       uri: https://github.com/diwakar-k/branch.git
-      branch: "*"
+      branch: ((branch))
 
 
 jobs:
