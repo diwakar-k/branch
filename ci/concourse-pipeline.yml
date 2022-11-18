@@ -35,5 +35,6 @@ jobs:
               export NEW_VERSIONS=$(cat branches)
               export OLD_VERSIONS=$(cat removed)
               fly -t tutorial login -c http://54.242.191.180:8080 -u test -p test
+              fly -t tutorial sync
         
       #   file: demo/build/test.yml
