@@ -37,6 +37,7 @@ jobs:
               fly -t tutorial login -c http://54.145.181.161:8080 -u test -p test
               fly -t tutorial sync
               for version in $NEW_VERSIONS; do
+                  pwd
                   echo $version
                   git branch
                 # sed "s/___BRANCH___/$version/g" .ci/pipeline-demo.tmpl > .ci/pipeline-app.result
