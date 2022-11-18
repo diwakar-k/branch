@@ -31,7 +31,7 @@ jobs:
             - |
               cd demo 
               ls
-              export NEW_VERSIONS=$(cat branches/branches)
-              export OLD_VERSIONS=$(cat branches/removed)
+              export NEW_VERSIONS=$(cat branches)
+              export OLD_VERSIONS=$(cat removed)
         
       #   file: demo/build/test.yml
